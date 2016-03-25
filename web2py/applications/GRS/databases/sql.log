@@ -1,0 +1,365 @@
+timestamp: 2016-03-26T00:41:25.997150
+CREATE TABLE auth_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(512),
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2016-03-26T00:41:26.155634
+CREATE TABLE auth_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-26T00:41:26.255631
+CREATE TABLE auth_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-26T00:41:26.356883
+CREATE TABLE auth_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES auth_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-03-26T00:41:26.489287
+CREATE TABLE auth_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-26T00:41:26.600452
+CREATE TABLE auth_cas(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES auth_user (id) ON DELETE CASCADE  ,
+    created_on TIMESTAMP,
+    service CHAR(512),
+    ticket CHAR(512),
+    renew CHAR(1)
+);
+success!
+timestamp: 2016-03-26T00:41:26.712519
+CREATE TABLE users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username CHAR(32),
+    first_name CHAR(128),
+    last_name CHAR(128),
+    email CHAR(128),
+    entry_no CHAR(100),
+    type_ INTEGER,
+    password CHAR(512),
+    registration_key CHAR(512),
+    reset_password_key CHAR(512),
+    registration_id CHAR(512)
+);
+success!
+timestamp: 2016-03-26T00:41:26.812106
+CREATE TABLE user_group(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role CHAR(512),
+    description TEXT
+);
+success!
+timestamp: 2016-03-26T00:41:26.912509
+CREATE TABLE user_membership(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    group_id INTEGER REFERENCES user_group (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-26T00:41:27.014074
+CREATE TABLE user_permission(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_id INTEGER REFERENCES user_group (id) ON DELETE CASCADE  ,
+    name CHAR(512),
+    table_name CHAR(512),
+    record_id INTEGER
+);
+success!
+timestamp: 2016-03-26T00:41:27.124990
+CREATE TABLE user_event(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    time_stamp TIMESTAMP,
+    client_ip CHAR(512),
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    origin CHAR(512),
+    description TEXT
+);
+success!
+success!
+success!
+timestamp: 2016-03-26T00:46:07.517344
+ALTER TABLE users ADD email_id CHAR(128);
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T00:48:24.759629
+ALTER TABLE users ADD hostel_id INTEGER;
+success!
+timestamp: 2016-03-26T00:48:29.082777
+ALTER TABLE users ADD picture_id INTEGER;
+success!
+success!
+timestamp: 2016-03-26T00:49:27.514840
+ALTER TABLE users ADD year_of_degree INTEGER;
+success!
+timestamp: 2016-03-26T00:49:43.857997
+ALTER TABLE users ADD degree_name CHAR(32);
+success!
+success!
+timestamp: 2016-03-26T00:59:31.653591
+CREATE TABLE complaints(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_level_id INTEGER,
+    complaint_domain_id INTEGER,
+    complaint_date TIMESTAMP,
+    complaint_title CHAR(256),
+    complaint_details CHAR(2048),
+    date_work_taken_on TIMESTAMP,
+    status_id INTEGER,
+    posted_by INTEGER,
+    date_posted TIMESTAMP,
+    upvotes_count INTEGER,
+    downvotes_count INTEGER,
+    date_resolved TIMESTAMP,
+    photo_id INTEGER,
+    redirected_by_user_id INTEGER,
+    redirected_to_user_id INTEGER
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T01:18:08.264062
+CREATE TABLE pictures(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    picture_name CHAR(512),
+    picture_caption CHAR(512)
+);
+success!
+timestamp: 2016-03-26T01:18:08.404502
+CREATE TABLE votes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    vote_type INTEGER,
+    complaint_id INTEGER,
+    detailed_status CHAR(2048)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T01:21:04.563233
+CREATE TABLE comments(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    complaint_id INTEGER,
+    detailed_status CHAR(2048)
+);
+success!
+timestamp: 2016-03-26T01:21:04.717704
+CREATE TABLE status_comments(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    status_id INTEGER
+);
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T01:21:16.570759
+ALTER TABLE status_comments ADD date_commented TIMESTAMP;
+success!
+success!
+timestamp: 2016-03-26T01:21:38.802417
+ALTER TABLE status_comments ADD comment_made CHAR(2048);
+success!
+success!
+timestamp: 2016-03-26T01:21:50.741479
+ALTER TABLE comments ADD comment_made CHAR(2048);
+timestamp: 2016-03-26T01:21:50.860866
+ALTER TABLE comments ADD date_commented TIMESTAMP;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T01:28:06.848339
+CREATE TABLE complaint_status(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    status_name CHAR(512),
+    detailed_status CHAR(2048),
+    complaint_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T01:59:35.616509
+CREATE TABLE hostels(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    hostel_admin_group_id INTEGER,
+    hostel_residents_group_id INTEGER,
+    hostel_name CHAR(32) UNIQUE
+);
+success!
+success!
+timestamp: 2016-03-26T01:59:35.744461
+CREATE TABLE groups_members(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    group_id INTEGER,
+    member_post INTEGER,
+    is_validated CHAR(1)
+);
+success!
+timestamp: 2016-03-26T01:59:35.882786
+CREATE TABLE hostel_management(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    hostel_id INTEGER REFERENCES hostels (id) ON DELETE CASCADE  ,
+    mess_secretary_user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    house_secretary_user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    maintenance_secretary_user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    sports_secretary_user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    cultural_secretary_user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-26T01:59:36.005747
+CREATE TABLE complaint_levels(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_level_name CHAR(64)
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T02:02:02.067612
+CREATE TABLE complaint_domain(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_domain_name CHAR(64),
+    complaint_level_id INTEGER REFERENCES complaint_levels (id) ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T02:02:57.011042
+CREATE TABLE bookmarks(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  ,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2016-03-26T02:05:15.801895
+CREATE TABLE complaints_concerning_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  ,
+    id_type INTEGER
+);
+success!
+success!
+success!
+timestamp: 2016-03-26T02:07:49.429690
+CREATE TABLE group_members(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    group_id INTEGER,
+    member_post INTEGER,
+    is_validated CHAR(1)
+);
+success!
+timestamp: 2016-03-26T02:07:49.571145
+ALTER TABLE complaints_concerning_user ADD user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ;
+timestamp: 2016-03-26T02:07:49.673084
+ALTER TABLE complaints_concerning_user ADD is_hidden CHAR(1);
+timestamp: 2016-03-26T02:07:49.749258
+ALTER TABLE complaints_concerning_user ADD group_id INTEGER;
+success!
+timestamp: 2016-03-26T02:07:49.816943
+CREATE TABLE complaints_with_resolving_rights_to_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  ,
+    id_type INTEGER,
+    group_id INTEGER,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    is_hidden CHAR(1)
+);
+success!
+timestamp: 2016-03-26T02:07:49.907562
+CREATE TABLE complaints_made_to_user(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  ,
+    id_type INTEGER,
+    group_id INTEGER,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  ,
+    is_hidden CHAR(1)
+);
+success!
