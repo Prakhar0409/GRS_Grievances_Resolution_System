@@ -1,0 +1,9 @@
+@request.restful()
+def validation():
+	response.view = 'generic.json'
+	def GET(complaint_id):			#######TO DO
+		return dict(data = True)
+	return locals()
+
+
+

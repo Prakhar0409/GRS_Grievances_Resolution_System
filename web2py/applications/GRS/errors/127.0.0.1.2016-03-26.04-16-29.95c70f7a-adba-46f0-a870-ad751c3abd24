@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.ValueError'> invalid literal for long() with base 10: 'ffg'"
+p3
+sS'layer'
+p4
+S'/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/complaint.py'
+p5
+sS'code'
+p6
+S"@request.restful()\ndef index():\n\tresponse.view = 'generic.json'\n\tdef GET(complaint_id):\n\t\treturn dict(data = db.complaints(id=complaint_id))\n    \treturn locals()\n\n\n\nresponse._vars=response._caller(index)\n"
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/complaint.py", line 10, in <module>\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/globals.py", line 380, in f\n    res = rest_action(*request.args, **request.vars)\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/complaint.py", line 5, in GET\n    return dict(data = db.complaints(id=complaint_id))\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 546, in __call__\n    orderby_on_limitby=False).first()\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 2020, in select\n    return adapter.select(self.query, fields, attributes)\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/sqlite.py", line 123, in select\n    return super(SQLiteAdapter, self).select(query, fields, attributes)\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1283, in select\n    sql = self._select(query, fields, attributes)\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1170, in _select\n    sql_w = \' WHERE \' + self.expand(query) if query else \'\'\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/base.py", line 952, in expand\n    rv = op(first, second, **optional_args)\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/base.py", line 846, in EQ\n    self.expand(second, first.type))\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/base.py", line 962, in expand\n    rv = self.represent(expression, field_type)\n  File "/home/user/Local Disk E/COP290/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/adapters/base.py", line 1435, in represent\n    return str(long(obj))\nValueError: invalid literal for long() with base 10: \'ffg\'\n'
+p11
+s.
