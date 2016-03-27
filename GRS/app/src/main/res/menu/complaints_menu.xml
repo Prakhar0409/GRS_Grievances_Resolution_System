@@ -24,6 +24,11 @@
         android:title="Request Validation"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_validation_requests"
+        android:orderInCategory="100"
+        android:title="Validation Requests"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_new_complaint"
         android:orderInCategory="100"
         android:title="Submit Complaint"

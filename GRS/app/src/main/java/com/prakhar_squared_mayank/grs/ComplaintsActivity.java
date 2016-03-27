@@ -1,5 +1,6 @@
 package com.prakhar_squared_mayank.grs;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -61,6 +62,10 @@ public class ComplaintsActivity extends AppCompatActivity implements View.OnClic
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id == R.id.action_validation_requests) {
+            Intent it = new Intent(this, ValidationRequestActivity.class);
+            startActivity(it);
         }
 
         return super.onOptionsItemSelected(item);

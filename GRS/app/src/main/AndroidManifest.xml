@@ -22,8 +22,10 @@
         <activity
             android:name=".SignUpActivity"
             android:label="Sign Up" />
-        <activity android:name=".ComplaintsActivity"
-            android:theme="@style/MyMaterialTheme"></activity>
+        <activity
+            android:name=".ComplaintsActivity"
+            android:theme="@style/MyMaterialTheme" />
+        <activity android:name=".ValidationRequestActivity"></activity>
     </application>
 
 </manifest>
