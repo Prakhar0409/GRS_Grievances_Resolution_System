@@ -36,6 +36,9 @@ def status():
 	def GET(complaint_id):
 		return dict(data = db(db.complaint_status.complaint_id==complaint_id).select())
     	return locals()
+	def POST(*tmp_args,**status_input):
+		return db[db.complaint_status].validate_and_insert(**status_input)
+	return locals()
 
 @request.restful()
 def complaints():
@@ -79,11 +82,40 @@ def follow():
 	return locals()
 
 @request.restful()
-def status():
+def read():
 	response.view = 'generic.json'
-	def POST(*tmp_args,**status_input):
-		return db[db.complaint_status].validate_and_insert(**status_input)
-	def GET(*tmp_args,**status_input):
-		return db[db.complaint_status].validate_and_insert(**status_input)
+	def POST(*tmp_args,**follow_input):
+		return db[db.complaint_read].validate_and_insert(**follow_input)
+	def GET(*tmp_args,**follow_input):
+		return db[db.complaint_read].validate_and_insert(**follow_input)
 	return locals()
+
+@request.restful()
+def is_read():
+	response.view = 'generic.json'
+	def GET(complaint_id):
+		data = db(db.complaint_read.complaint_id==complaint_id).select()
+		if len(data)>0:
+			return dict(read = True)
+		else:
+			return dict(read = False)
+    	return locals()
+
+@request.restful()
+def redirect():
+	response.view = 'generic.json'
+	def POST(*tmp_args,**follow_input):
+		userid_from = request.vars.redirect_from
+		userid_to = request.vars.redirect_to
+		complaint_id = request.vars.complaint_id
+		updated = db.executesql('UPDATE complaints SET redirected_to_user='+userid_to+', redirect_from_user='+userid_from+' WHERE id='+complaint_id+';')
+		return dict(success=False if not updated else True)
+	def GET(*tmp_args,**follow_input):
+		userid_from = request.vars.redirect_from
+		userid_to = request.vars.redirect_to
+		complaint_id = request.vars.complaint_id
+		done = db.executesql('UPDATE complaints SET redirected_to_user_id='+userid_to+', redirected_by_user_id='+userid_from+' WHERE id='+complaint_id+';')
+		return dict(success=True)
+	return locals()
+
 

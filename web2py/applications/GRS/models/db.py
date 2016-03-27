@@ -263,3 +263,17 @@ db.define_table(
     Field('is_hidden', 'boolean'),
 )
 
+
+db.define_table(
+    'complaint_read',
+    Field('complaint_id', db.complaints),
+    Field('user_id', db.users),
+)
+
+
+db.define_table(
+    'status_read',
+    Field('status_id', db.complaints),
+    Field('user_id', db.users),
+)
+

@@ -978,3 +978,24 @@ success!
 success!
 success!
 success!
+success!
+timestamp: 2016-03-27T19:27:17.468985
+CREATE TABLE complaint_read(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    complaint_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  ,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  
+);
+success!
+timestamp: 2016-03-27T19:27:17.554000
+CREATE TABLE status_read(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    status_id INTEGER REFERENCES complaints (id) ON DELETE CASCADE  ,
+    user_id INTEGER REFERENCES users (id) ON DELETE CASCADE  
+);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
