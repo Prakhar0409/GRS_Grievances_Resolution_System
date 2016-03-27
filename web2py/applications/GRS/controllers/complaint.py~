@@ -16,22 +16,74 @@ def levels():
 def domains():
 	response.view = 'generic.json'
 	def GET(level_id):
-		return dict(data = db.complaint_domain(complaint_level_id=level_id))
+		return dict(data = db(db.complaint_domain.complaint_level_id==level_id).select())
+    	return locals()
+
+@request.restful()
+def bookmark():
+	response.view = 'generic.json'
+	def GET(complaint_id):
+		data = db(db.bookmarks.complaint_id==complaint_id).select()
+		if len(data)>0:
+			return dict(bookmarked = True)
+		else:
+			return dict(bookmarked = False)
     	return locals()
 
 @request.restful()
 def status():
 	response.view = 'generic.json'
 	def GET(complaint_id):
-		return dict(data = db.complaint_status(complaint_id=complaint_id))
+		return dict(data = db(db.complaint_status.complaint_id==complaint_id).select())
+    	return locals()
+
+@request.restful()
+def complaints():
+	response.view = 'generic.json'
+	def GET(complaint_section):
+		if(complaint_section=='bookmarked'):
+			return dict(data = db(db.bookmarks.complaint_id>0).select())
+		elif(complaint_section=='concern'):
+			return dict(data = db(db.complaints_concerning_user.complaint_id>0).select())
+		elif(complaint_section=='resolve'):
+			return dict(data = db(db.complaints_with_resolving_rights_to_user.complaint_id>0).select())
+		elif(complaint_section=='solve'):
+			return dict(data = db(db.complaints_made_to_user.complaint_id>0).select())
     	return locals()
 
 @request.restful()
 def create():
 	response.view = 'generic.json'
 	def POST(*tmp_args,**complaint_input):
-#		return dict(data = db[db.complaints].insert(complaint_level_id=complaint_input[0], complaint_domain_id=complaint_input[1], complaint_date=complaint_input[2], complaint_title=complaint_input[3], complaint_details=complaint_input[4], date_work_taken_on=complaint_input[5], complaint_level_id=complaint_input[6], status_id=complaint_input[7], posted_by=complaint_input[8], date_posted=complaint_input[9], upvotes_count=complaint_input[10], date_resolved=complaint_input[11], photo_id=complaint_input[12], redirected_by_user_id=complaint_input[12], redirected_to_user_id=complaint_input[13]))
-		return dict(data=True)
+		return db[db.complaints].validate_and_insert(**complaint_input)
+	def GET(*tmp_args,**complaint_input):
+		return db[db.complaints].validate_and_insert(**complaint_input)
 	return locals()
 
+@request.restful()
+def vote():
+	response.view = 'generic.json'
+	def POST(*tmp_args,**vote_input):
+		return db[db.votes].validate_and_insert(**vote_input)
+	def GET(*tmp_args,**vote_input):
+		return db[db.votes].validate_and_insert(**vote_input)
+	return locals()
+
+@request.restful()
+def follow():
+	response.view = 'generic.json'
+	def POST(*tmp_args,**follow_input):
+		return db[db.bookmarks].validate_and_insert(**follow_input)
+	def GET(*tmp_args,**follow_input):
+		return db[db.bookmarks].validate_and_insert(**follow_input)
+	return locals()
+
+@request.restful()
+def status():
+	response.view = 'generic.json'
+	def POST(*tmp_args,**status_input):
+		return db[db.complaint_status].validate_and_insert(**status_input)
+	def GET(*tmp_args,**status_input):
+		return db[db.complaint_status].validate_and_insert(**status_input)
+	return locals()
 
