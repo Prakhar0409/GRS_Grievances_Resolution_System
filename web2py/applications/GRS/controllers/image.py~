@@ -1,0 +1,8 @@
+@request.restful()
+def user():
+	response.view = 'generic.json'
+	def GET(image_id):
+		response.view = 'generic.json'
+		images = db.pictures(id=image_id)
+		return dict(images=images)
+	return locals()

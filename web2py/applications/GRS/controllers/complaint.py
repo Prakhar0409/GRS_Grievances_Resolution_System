@@ -9,21 +9,21 @@ def details():
 def levels():
 	response.view = 'generic.json'
 	def GET():
-		return dict(data = db.complaint_levels(id>0))
+		return dict(data = db(db.complaint_levels.id>0).select())
     	return locals()
 
 @request.restful()
 def domains():
 	response.view = 'generic.json'
 	def GET(level_id):
-		return dict(data = db.complaint_domain(complaint_level_id=level_id))
+		return dict(data = db(db.complaint_domain.complaint_level_id=level_id).select())
     	return locals()
 
 @request.restful()
 def status():
 	response.view = 'generic.json'
 	def GET(complaint_id):
-		return dict(data = db.complaint_status(complaint_id=complaint_id))
+		return dict(data = db(db.complaint_status.complaint_id=complaint_id).select())
     	return locals()
 
 @request.restful()

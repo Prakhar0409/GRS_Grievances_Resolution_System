@@ -9,7 +9,7 @@ def details():
 def levels():
 	response.view = 'generic.json'
 	def GET():
-		return dict(data = db.complaint_levels(id>0))
+		return dict(data = db(db.complaint_levels.id>0).select())
     	return locals()
 
 @request.restful()
