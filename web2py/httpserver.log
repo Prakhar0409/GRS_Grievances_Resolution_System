@@ -2613,3 +2613,10 @@
 127.0.0.1, 2016-03-27 19:29:42, GET, /favicon.ico, HTTP/1.1, 400, 0.000489
 127.0.0.1, 2016-03-27 19:30:01, GET, /GRS/complaint/redirect, HTTP/1.1, 200, 0.167186
 127.0.0.1, 2016-03-27 19:30:01, GET, /favicon.ico, HTTP/1.1, 400, 0.000480
+127.0.0.1, 2016-03-27 19:46:21, GET, /admin/default/site, HTTP/1.1, 200, 0.426637
+127.0.0.1, 2016-03-27 19:46:24, POST, /admin/default/check_version, HTTP/1.1, 200, 1.840381
+127.0.0.1, 2016-03-27 19:46:26, GET, /admin/default/design/GRS, HTTP/1.1, 200, 0.353105
+127.0.0.1, 2016-03-27 19:46:26, GET, /favicon.ico, HTTP/1.1, 400, 0.000436
+127.0.0.1, 2016-03-27 19:46:34, POST, /admin/default/create_file, HTTP/1.1, 303, 0.057232
+127.0.0.1, 2016-03-27 19:46:34, GET, /admin/default/design/GRS, HTTP/1.1, 200, 0.244037
+127.0.0.1, 2016-03-27 19:46:35, GET, /favicon.ico, HTTP/1.1, 400, 0.002626

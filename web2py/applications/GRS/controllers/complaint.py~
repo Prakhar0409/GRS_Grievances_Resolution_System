@@ -114,8 +114,28 @@ def redirect():
 		userid_from = request.vars.redirect_from
 		userid_to = request.vars.redirect_to
 		complaint_id = request.vars.complaint_id
-		updated = db.executesql('UPDATE complaints SET redirected_to_user_id='+userid_to+', redirected_by_user_id='+userid_from+' WHERE id='+complaint_id+';')
-		return dict(success=False if not updated else True)
+		done = db.executesql('UPDATE complaints SET redirected_to_user_id='+userid_to+', redirected_by_user_id='+userid_from+' WHERE id='+complaint_id+';')
+		return dict(success=True)
+	return locals()
+
+
+@request.restful()
+def comment():
+	response.view = 'generic.json'
+	def POST(*tmp_args,**follow_input):
+		return db[db.comments].validate_and_insert(**follow_input)
+	def GET(*tmp_args,**follow_input):
+		return db[db.comments].validate_and_insert(**follow_input)
+	return locals()
+
+
+@request.restful()
+def follow():
+	response.view = 'generic.json'
+	def POST(*tmp_args,**follow_input):
+		return db[db.comments].validate_and_insert(**follow_input)
+	def GET(*tmp_args,**follow_input):
+		return db[db.comments].validate_and_insert(**follow_input)
 	return locals()
 
 
