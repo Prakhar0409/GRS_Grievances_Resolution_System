@@ -33,10 +33,24 @@ def bookmark():
 @request.restful()
 def status():
 	response.view = 'generic.json'
-	def GET(complaint_id):
-		return dict(data = db(db.complaint_status.complaint_id==complaint_id).select())
+	def GET(*tmp_args,**status_input):
+		if(tmp_args[0]=='comment'):
+			ret_status = db[db.status_comments].validate_and_insert(**status_input)
+			notif = db.notifications.insert(complaint_id=request.vars.complaint_id,notification_type=2,notification_item_id=ret_status)
+			return ret_status
+		else
+			ret_status = db[db.complaint_status].validate_and_insert(**status_input)
+			notif = db.notifications.insert(complaint_id=request.vars.complaint_id,notification_type=1,notification_item_id=ret_status)
+			return ret_status
 	def POST(*tmp_args,**status_input):
-		return db[db.complaint_status].validate_and_insert(**status_input)
+		if(tmp_args[0]=='comment'):
+			ret_status = db[db.status_comments].validate_and_insert(**status_input)
+			notif = db.notifications.insert(complaint_id=request.vars.complaint_id,notification_type=2,notification_item_id=ret_status)
+			return ret_status
+		else
+			ret_status = db[db.complaint_status].validate_and_insert(**status_input)
+			notif = db.notifications.insert(complaint_id=request.vars.complaint_id,notification_type=1,notification_item_id=ret_status)
+			return ret_status
 	return locals()
 
 @request.restful()
@@ -176,10 +190,11 @@ def create():
 
 			hstl = db.users(id=user_id).hostel_id;
 			hostel_admin_grp = db.hostels(id=hstl).hostel_admin_group_id;
+			hostel_res_grp = db.hostels(id=hstl).hostel_residents_group_id;
 			mess_secretry = db.hostel_management(hostel_id=hstl).mess_secretary_user_id
 			maintenance_secretry = db.hostel_management(hostel_id=hstl).mess_secretary_user_id
 			sports_secretry = db.hostel_management(hostel_id=hstl).mess_secretary_user_id
-			concern = db.complaints_concerning_user.insert(complaint_id=complaint_id,id_type=1,group_id=hostel_residents_group_id)
+			concern = db.complaints_concerning_user.insert(complaint_id=complaint_id,id_type=1,group_id=hostel_res_grp)
 			if present_domain_name=='Infrastructure':
 				cmplt = db.complaints_made_to_user.insert(complaint_id=complaint_id,id_type=1,group_id=hostel_admin_grp)
 				cmplt_rslv = db.complaints_with_resolving_rights_to_user.insert(complaint_id=complaint_id,id_type=1,group_id=hostel_admin_grp)
@@ -315,9 +330,13 @@ def redirect():
 def comment():
 	response.view = 'generic.json'
 	def POST(*tmp_args,**follow_input):
-		return db[db.comments].validate_and_insert(**follow_input)
+		ret_cmnt = db[db.comments].validate_and_insert(**follow_input)
+		notif = db.notifications.insert(complaint_id=request.vars.complaint_id,notification_type=0,notification_item_id=ret_cmnt)
+		return ret_cmnt
 	def GET(*tmp_args,**follow_input):
-		return db[db.comments].validate_and_insert(**follow_input)
+		ret_cmnt = db[db.comments].validate_and_insert(**follow_input)
+		notif = db.notifications.insert(complaint_id=request.vars.complaint_id,notification_type=0,notification_item_id=ret_cmnt)
+		return ret_cmnt
 	return locals()
 
 

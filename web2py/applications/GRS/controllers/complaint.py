@@ -33,10 +33,32 @@ def bookmark():
 @request.restful()
 def status():
 	response.view = 'generic.json'
-	def GET(complaint_id):
-		return dict(data = db(db.complaint_status.complaint_id==complaint_id).select())
+	def GET(*tmp_args,**status_input):
+		if(tmp_args[0]=='comment'):
+			ret_status = db[db.status_comments].validate_and_insert(**status_input)
+			book_usrs = db(db.bookmarks.complaint_id==request.vars.complaint_id).select()
+			for index in range(len(book_usrs)):
+				notif = db.notifications.insert(user_id=book_usrs[index].user_id,notification_type=2,notification_item_id=ret_cmnt)
+			return ret_status
+		else
+			ret_status = db[db.complaint_status].validate_and_insert(**status_input)
+			book_usrs = db(db.bookmarks.complaint_id==request.vars.complaint_id).select()
+			for index in range(len(book_usrs)):
+				notif = db.notifications.insert(user_id=book_usrs[index].user_id,notification_type=2,notification_item_id=ret_cmnt)
+			return ret_status
 	def POST(*tmp_args,**status_input):
-		return db[db.complaint_status].validate_and_insert(**status_input)
+		if(tmp_args[0]=='comment'):
+			ret_status = db[db.status_comments].validate_and_insert(**status_input)
+			book_usrs = db(db.bookmarks.complaint_id==request.vars.complaint_id).select()
+			for index in range(len(book_usrs)):
+				notif = db.notifications.insert(user_id=book_usrs[index].user_id,notification_type=2,notification_item_id=ret_cmnt)
+			return ret_status
+		else
+			ret_status = db[db.complaint_status].validate_and_insert(**status_input)
+			book_usrs = db(db.bookmarks.complaint_id==request.vars.complaint_id).select()
+			for index in range(len(book_usrs)):
+				notif = db.notifications.insert(user_id=book_usrs[index].user_id,notification_type=2,notification_item_id=ret_cmnt)
+			return ret_status
 	return locals()
 
 @request.restful()
@@ -316,9 +338,17 @@ def redirect():
 def comment():
 	response.view = 'generic.json'
 	def POST(*tmp_args,**follow_input):
-		return db[db.comments].validate_and_insert(**follow_input)
+		ret_cmnt = db[db.comments].validate_and_insert(**follow_input)
+		book_usrs = db(db.bookmarks.complaint_id==request.vars.complaint_id).select()
+		for index in range(len(book_usrs)):
+			notif = db.notifications.insert(user_id=book_usrs[index].user_id,notification_type=0,notification_item_id=ret_cmnt)
+		return ret_cmnt
 	def GET(*tmp_args,**follow_input):
-		return db[db.comments].validate_and_insert(**follow_input)
+		ret_cmnt = db[db.comments].validate_and_insert(**follow_input)
+		book_usrs = db(db.bookmarks.complaint_id==request.vars.complaint_id).select()
+		for index in range(len(book_usrs)):
+			notif = db.notifications.insert(user_id=book_usrs[index].user_id,notification_type=0,notification_item_id=ret_cmnt)
+		return ret_cmnt
 	return locals()
 
 

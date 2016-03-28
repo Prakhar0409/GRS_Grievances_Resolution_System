@@ -213,7 +213,6 @@ db.define_table(
     Field('comment_made', 'string', length=2048),
     Field('date_commented', 'datetime', default=datetime.now),
     Field('complaint_id', db.complaints),
-    Field('detailed_status', 'string', length=2048),
 )
 
 
@@ -222,6 +221,7 @@ db.define_table(
     Field('status_name', 'string', length=512),
     Field('detailed_status', 'string', length=2048),
     Field('complaint_id', db.complaints),
+    Field('date_commented', 'datetime', default=datetime.now),
 )
 
 
@@ -268,6 +268,14 @@ db.define_table(
     Field('group_id', 'integer'),
     Field('user_id', db.users),
     Field('is_hidden', 'boolean',default='False'),
+)
+
+
+db.define_table(
+    'notifications',
+    Field('user_id', db.users),
+    Field('notification_type', 'integer'),	#0 comment, 1 status,2 status_comment
+    Field('notification_item_id', 'integer'),	#id of status/comment
 )
 
 
