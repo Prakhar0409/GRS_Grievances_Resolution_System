@@ -96,6 +96,12 @@ from datetime import datetime,timedelta
 
 
 db.define_table(
+    'user_group_names',
+    Field('group_name', 'string', length=64),
+ )
+
+
+db.define_table(
     'hostels',
     Field('hostel_admin_group_id', 'integer'),
     Field('hostel_residents_group_id', 'integer'),
@@ -122,7 +128,7 @@ db.define_table(
 db.define_table(
     'group_members',
     Field('user_id', db.users),
-    Field('group_id', 'integer'),
+    Field('group_id', db.user_group_names),
     Field('member_post', 'integer'),
     Field('is_validated', 'boolean'),
  )
@@ -132,7 +138,7 @@ custom_auth_table = db['users']
 
 auth.settings.table_user = custom_auth_table
 auth.settings.table_user_name = 'users'    #Very important to mention
-#auth.settings.table_group_name = 'user_group'
+auth.settings.table_group_name = 'user_group_names'
 auth.settings.table_membership_name = 'group_members'
 #auth.settings.table_permission_name = 'user_permission'
 auth.settings.login_userfield = 'username'        #the loginfield will be username
@@ -141,7 +147,7 @@ auth.settings.login_userfield = 'username'        #the loginfield will be userna
 
 db.define_table(
     'hostel_management',
-    Field('hostel_id', db.hostels),
+    Field('hostel_id', db.hostels, unique=True),
     Field('mess_secretary_user_id', db.users),
     Field('house_secretary_user_id', db.users),
     Field('maintenance_secretary_user_id', db.users),
@@ -166,20 +172,21 @@ db.define_table(
 db.define_table(
     'complaints',
     Field('complaint_level_id', db.complaint_levels),
-    Field('complaint_domain_id', 'integer'),
+    Field('complaint_domain_id', db.complaint_domain),
     Field('complaint_date', 'datetime', default=datetime.now),
     Field('complaint_title', 'string', length=256),
     Field('complaint_details', 'string', length=2048),
-    Field('date_work_taken_on', 'datetime', default=datetime.now),
+    Field('date_work_taken_on', 'datetime'),
     Field('complaint_level_id', 'integer'),
     Field('status_id', 'integer'),
     Field('posted_by', db.users),
     Field('date_posted', 'datetime', default=datetime.now),
     Field('upvotes_count', 'integer'),
     Field('downvotes_count', 'integer'),
-    Field('date_resolved', 'datetime', default=datetime.now),
+    Field('date_resolved', 'datetime'),
     Field('photo_id', 'integer'),
     Field('redirected_by_user_id', db.users),
+    Field('redirected_to_type', 'integer'),	#0 for user,1 for group
     Field('redirected_to_user_id', db.users),
 )
 
@@ -240,7 +247,7 @@ db.define_table(
     Field('id_type', 'integer'),	#0 user 1 group
     Field('group_id', 'integer'),
     Field('user_id', db.users),
-    Field('is_hidden', 'boolean'),
+    Field('is_hidden', 'boolean',default='False'),
 )
 
 
@@ -250,7 +257,7 @@ db.define_table(
     Field('id_type', 'integer'),
     Field('group_id', 'integer'),
     Field('user_id', db.users),
-    Field('is_hidden', 'boolean'),
+    Field('is_hidden', 'boolean',default='False'),
 )
 
 
@@ -260,7 +267,7 @@ db.define_table(
     Field('id_type', 'integer'),
     Field('group_id', 'integer'),
     Field('user_id', db.users),
-    Field('is_hidden', 'boolean'),
+    Field('is_hidden', 'boolean',default='False'),
 )
 
 

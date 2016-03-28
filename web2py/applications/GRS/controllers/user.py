@@ -21,8 +21,8 @@ def signup():
 	response.view = 'generic.json'
 	def POST(*tmp_args,**complaint_input):
 		form = auth.register(**complaint_input)
-    		return dict(success=False if not user else True, user=user)
+    		return dict(success=False)
 	def GET(*tmp_args,**complaint_input):
 		form = auth.register(**complaint_input)
-    		return dict(success=False if not user else True, user=user)
+    		return dict(success=False)
 	return locals()
