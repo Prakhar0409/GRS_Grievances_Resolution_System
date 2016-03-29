@@ -662,3 +662,11 @@ def reset_db():
 	hostels_set()
 	hostel_management_set()
 	users_add()
+
+@request.restful()
+def hostel_list():
+	response.view = 'generic.json'
+	def GET():
+		return dict(data = db(db.hostels.id>0).select())
+	return locals()
+

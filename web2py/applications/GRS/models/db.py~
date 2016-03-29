@@ -122,6 +122,7 @@ db.define_table(
     Field('hostel_id', db.hostels),
     Field('picture_id', 'integer'),
     Field('year_of_degree', 'integer'),
+    Field('contact_no', 'integer'),
  )
 
 
@@ -139,11 +140,17 @@ custom_auth_table = db['users']
 auth.settings.table_user = custom_auth_table
 auth.settings.table_user_name = 'users'    #Very important to mention
 auth.settings.table_group_name = 'user_group_names'
-auth.settings.table_membership_name = 'group_members'
+#auth.settings.table_membership_name = 'group_members'
 #auth.settings.table_permission_name = 'user_permission'
+auth.settings.table_event_name = 'user_event'
 auth.settings.login_userfield = 'username'        #the loginfield will be username
-#auth.define_tables(username=False)    #Creating the table
+auth.define_tables(username=False)    #Creating the table
 
+custom_auth_table.username.requires = IS_NOT_IN_DB(db,custom_auth_table.username), IS_NOT_EMPTY(error_message=auth.messages.is_empty)
+custom_auth_table.first_name.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
+custom_auth_table.last_name.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
+custom_auth_table.password.requires = IS_NOT_EMPTY(error_message=auth.messages.is_empty)
+custom_auth_table.email_id.requires = IS_EMAIL(error_message=auth.messages.invalid_email),IS_NOT_IN_DB(db,custom_auth_table.email_id)
 
 db.define_table(
     'hostel_management',
@@ -177,7 +184,6 @@ db.define_table(
     Field('complaint_title', 'string', length=256),
     Field('complaint_details', 'string', length=2048),
     Field('date_work_taken_on', 'datetime'),
-    Field('complaint_level_id', 'integer'),
     Field('status_id', 'integer'),
     Field('posted_by', db.users),
     Field('date_posted', 'datetime', default=datetime.now),
@@ -273,9 +279,10 @@ db.define_table(
 
 db.define_table(
     'notifications',
-    Field('complaint_id', db.complaints),
-    Field('notification_type', 'integer'),	#0 comment, 1 status,2 status_comment
+    Field('user_id', db.users),
+    Field('notification_type', 'integer'),	#-1-stated in notification,0 comment, 1 status,2 status_comment
     Field('notification_item_id', 'integer'),	#id of status/comment
+    Field('notification', 'string','512'),
 )
 
 
@@ -292,3 +299,15 @@ db.define_table(
     Field('user_id', db.users),
 )
 
+db.define_table(
+    'validation_requests',
+    Field('from_user_id', db.users),
+    Field('to_user_id', db.users),
+    Field('group_id', db.user_group_names),
+)
+
+db.define_table(
+    'group_heads',
+    Field('group_id', db.user_group_names),
+    Field('head_user_id', db.users),
+)

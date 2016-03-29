@@ -1,0 +1,707 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.SyntaxError'> Field role does not belong to the table"
+p3
+sS'layer'
+p4
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## This is a sample controller\n## - index is the default action of any application\n## - user is required for authentication and authorization\n## - download is for downloading files uploaded in the db (does streaming)\n#########################################################################\n\ndef index():\n    """\n    example action using the internationalization operator T and flash\n    rendered by views/default/index.html or views/generic.html\n\n    if you need a simple wiki simply replace the two lines below with:\n    return auth.wiki()\n    """\n    response.flash = T("Hello World")\n    return dict(message=T(\'Welcome to web2py!\'))\n\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/bulk_register\n    use @auth.requires_login()\n        @auth.requires_membership(\'group name\')\n        @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users\n    """\n    return dict(form=auth())\n\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\ndef clear_all():\n\tfor table in db.tables():\n\t\ttry:\n\t\t\tdb(db[table].id>0).delete()\n\t\t\tprint "Cleared",table\n\t\texcept Exception, e:\n\t\t\tprint "Couldn\'t clear",table\n\ndef complaint_levels_set():\n\tdb.complaint_levels.insert(\n\t\tcomplaint_level_name="Individual",\n\t)\n\n\tdb.complaint_levels.insert(\n\t\tcomplaint_level_name="Hostel",\n\t)\n\n\tdb.complaint_levels.insert(\n\t\tcomplaint_level_name="Institute",\n\t)\n\n\tdb.complaint_levels.insert(\n\t\tcomplaint_level_name="Miscellaneous",\n\t)\n\ndef institute_complaint_domain_set():\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Infrastructure",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Administration",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Canteen and Food Outlets",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Security",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Sports",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Culture",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Academics",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Computer Services Centre",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Maintenance",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Miscellaneous",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Institute\'),\n\t)\n\ndef hostel_complaint_domain_set():\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Infrastructure",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Mess",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Administration",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Security",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Sports",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Maintenance",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Miscellaneous",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Hostel\'),\n\t)\n\ndef individual_complaint_domain_set():\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Electricity",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Plumbing",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Carpentry",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="UG Section",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="PG Section",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Accounts Section",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Students Counselling Service",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Ragging",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Hostel Administration",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Security",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\n\tdb.complaint_domain.insert(\n\t\tcomplaint_domain_name="Miscellaneous",\n\t\tcomplaint_level_id=db.complaint_levels(complaint_level_name=\'Individual\'),\n\t)\n\ndef group_names_set():\n\tdb.user_group_names.insert(\n\t\tgroup_name="Institute",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Institute Administration",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="UG Section",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="PG Section",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="BSA",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="BRCA",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="BHM",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="BSW",\n\t)\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="BSP",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Electricity Department",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Plumbing Department",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Carpentry Department",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Canteen Department",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Accounts Section",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Security Department",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Accounts Section",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Computer Services Centre",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Students Counselling Service",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Aravali Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Karakoram Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Nilgiri Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Jwalamukhi Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Kumaon Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Vindhyachal Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Shivalik Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Satpura Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Zanskar Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Girnar Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Udaigiri Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Kailash Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Himadri Hostel Admin Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Aravali Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Karakoram Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Nilgiri Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Jwalamukhi Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Kumaon Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Vindhyachal Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Shivalik Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Satpura Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Zanskar Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Girnar Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Udaigiri Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Kailash Hostel Residents Group",\n\t)\n\n\n\tdb.user_group_names.insert(\n\t\tgroup_name="Himadri Hostel Residents Group",\n\t)\n\ndef hostels_set():\n\tadmin_grp = db.user_group_names(group_name="Aravali Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Aravali Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Aravali",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Karakoram Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Karakoram Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Karakoram",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Nilgiri Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Nilgiri Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Nilgiri",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Jwalamukhi Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Jwalamukhi Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Jwalamukhi",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Kumaon Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Kumaon Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Kumaon",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Vindhyachal Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Vindhyachal Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Vindhyachal",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Shivalik Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Shivalik Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Shivalik",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Satpura Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Satpura Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Satpura",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Zanskar Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Zanskar Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Zanskar",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Girnar Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Girnar Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Girnar",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Udaigiri Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Udaigiri Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Udaigiri",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Kailash Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Kailash Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Kailash",\n\t)\n\n\n\tadmin_grp = db.user_group_names(group_name="Himadri Hostel Admin Group")\n\tres_grp = db.user_group_names(group_name="Himadri Hostel Residents Group")\n\tdb.hostels.insert(\n\t\thostel_admin_group_id=admin_grp,\n\t\thostel_residents_group_id=res_grp,\n\t\thostel_name="Himadri",\n\t)\n\ndef hostel_management_set():\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Aravali").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Karakoram").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Nilgiri").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Jwalamukhi").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Kumaon").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Vindhyachal").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Shivalik").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Satpura").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Zanskar").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Girnar").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Udaigiri").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Kailash").id\n\t)\n\n\tdb.hostel_management.insert(\n\t\thostel_id=db.hostels(hostel_name="Himadri").id\n\t)\n\ndef add_to_grp(grp_name,user_id):\n\tdb.group_members.insert(user_id=user_id,group_id=db.user_group_names(group_name=grp_name),)\n\ndef users_add():\n\tusr=db.users.insert(\n\t\tusername=\'std1\',\n\t\tfirst_name=\'student\',\n\t\tlast_name=\'1\',\n\t\tpassword=\'12345\',\n\t\thostel_id=db.hostels(hostel_name="Aravali").id,\n\t)\n\tadd_to_grp("Institute",usr)\n\tadd_to_grp("Aravali Hostel Residents Group",usr)\n\n\tusr=db.users.insert(\n\t\tusername=\'std2\',\n\t\tfirst_name=\'student\',\n\t\tlast_name=\'2\',\n\t\tpassword=\'12345\',\n\t\thostel_id=db.hostels(hostel_name=\'Aravali\').id,\n\t)\n\t\n\tadd_to_grp("Institute",usr)\n\tadd_to_grp("Aravali Hostel Residents Group",usr)\n\t#Make him mess secretry of Aravali\n\thstl_id = db.hostels(hostel_name="Aravali").id\n\tdb.executesql(\'UPDATE hostel_management SET mess_secretary_user_id=\'+str(usr.id)+\' WHERE hostel_id=\'+str(hstl_id)+\';\')\n\n\t#Adding 2 electricians\n\tusr=db.users.insert(\n\t\tusername=\'ell1\',\n\t\tfirst_name=\'electrician\',\n\t\tlast_name=\'1\',\n\t\tpassword=\'12345\',\n\t)\n\tadd_to_grp("Electricity Department",usr)\n\t\n\tusr=db.users.insert(\n\t\tusername=\'ell2\',\n\t\tfirst_name=\'electrician\',\n\t\tlast_name=\'2\',\n\t\tpassword=\'12345\',\n\t)\n\tadd_to_grp("Electricity Department",usr)\n\t\ndef reset_db():\n\tclear_all()\n\tcomplaint_levels_set()\n\tindividual_complaint_domain_set()\n\thostel_complaint_domain_set()\n\tinstitute_complaint_domain_set()\n\tgroup_names_set()\n\thostels_set()\n\thostel_management_set()\n\tusers_add()\n\nresponse._vars=response._caller(user)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__getslice__'
+p12
+S"<method-wrapper '__getslice__' of exceptions.SyntaxError object>"
+p13
+sS'text'
+p14
+S'None'
+p15
+sS'__str__'
+p16
+S"<method-wrapper '__str__' of exceptions.SyntaxError object>"
+p17
+sS'__reduce__'
+p18
+S'<built-in method __reduce__ of exceptions.SyntaxError object>'
+p19
+sS'__dict__'
+p20
+S'{}'
+p21
+sS'__sizeof__'
+p22
+S'<built-in method __sizeof__ of exceptions.SyntaxError object>'
+p23
+sS'__init__'
+p24
+S"<method-wrapper '__init__' of exceptions.SyntaxError object>"
+p25
+sS'__setattr__'
+p26
+S"<method-wrapper '__setattr__' of exceptions.SyntaxError object>"
+p27
+sS'__reduce_ex__'
+p28
+S'<built-in method __reduce_ex__ of exceptions.SyntaxError object>'
+p29
+sS'__new__'
+p30
+S'<built-in method __new__ of type object>'
+p31
+sS'__format__'
+p32
+S'<built-in method __format__ of exceptions.SyntaxError object>'
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.SyntaxError'>"
+p35
+sS'filename'
+p36
+S'None'
+p37
+sS'lineno'
+p38
+S'None'
+p39
+sS'msg'
+p40
+S"'Field role does not belong to the table'"
+p41
+sS'__doc__'
+p42
+S"'Invalid syntax.'"
+p43
+sS'__getitem__'
+p44
+S"<method-wrapper '__getitem__' of exceptions.SyntaxError object>"
+p45
+sS'__setstate__'
+p46
+S'<built-in method __setstate__ of exceptions.SyntaxError object>'
+p47
+sS'__getattribute__'
+p48
+S"<method-wrapper '__getattribute__' of exceptions.SyntaxError object>"
+p49
+sS'print_file_and_line'
+p50
+S'None'
+p51
+sS'args'
+p52
+S"('Field role does not belong to the table',)"
+p53
+sS'__subclasshook__'
+p54
+S'<built-in method __subclasshook__ of type object>'
+p55
+sS'offset'
+p56
+S'None'
+p57
+sS'__unicode__'
+p58
+S'<built-in method __unicode__ of exceptions.SyntaxError object>'
+p59
+sS'__delattr__'
+p60
+S"<method-wrapper '__delattr__' of exceptions.SyntaxError object>"
+p61
+sS'__repr__'
+p62
+S"<method-wrapper '__repr__' of exceptions.SyntaxError object>"
+p63
+sS'__hash__'
+p64
+S"<method-wrapper '__hash__' of exceptions.SyntaxError object>"
+p65
+ssS'evalue'
+p66
+S'Field role does not belong to the table'
+p67
+sS'request'
+p68
+cgluon.html
+XML_unpickle
+p69
+(S'sd\x81\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>GRS</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>register</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>default</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">gsScrollPos</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_admin</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-9942ebac-63c4-4689-80e7-24e695466b80<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_grievances</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-39bee78a-8e5b-4d17-ad2b-fa503b854ff7<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_grs</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_moodleplus</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-25637e95-9386-4286-82f2-1ebf4cebec13<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_sample1</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-69257c23-3e3c-4433-8daa-b0ad4e8056af<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_sample2</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-9b5af82d-a2f9-4dc5-9bb8-cace0eec1b34<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-2aa36f6c-96bf-4b44-aa47-e2ef5290a986<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>1589</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryjn3AgFPqzcxOavsN</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>1589</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryjn3AgFPqzcxOavsN</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>gsScrollPos=; gsScrollPos=; session_id_grievances=127.0.0.1-39bee78a-8e5b-4d17-ad2b-fa503b854ff7; session_id_sample1=127.0.0.1-69257c23-3e3c-4433-8daa-b0ad4e8056af; session_id_sample2=127.0.0.1-9b5af82d-a2f9-4dc5-9bb8-cace0eec1b34; session_id_moodleplus=127.0.0.1-25637e95-9386-4286-82f2-1ebf4cebec13; _ga=GA1.1.333590026.1458794726; session_id_welcome=127.0.0.1-2aa36f6c-96bf-4b44-aa47-e2ef5290a986; session_id_grs=127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f; session_id_admin=127.0.0.1-9942ebac-63c4-4689-80e7-24e695466b80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ORIGIN</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_REFERER</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/GRS/default/user/register?_next=/GRS/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_UPGRADE_INSECURE_REQUESTS</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/48.0.2564.116 Chrome/48.0.2564.116 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/GRS/default/user/register</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div>_next=/GRS/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>38602</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>POST</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>user-Z5WAH</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/&#x27;, &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/welcome/&#x27;, &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f1a2ab82908: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;user-Z5WAH&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_length</td><td style="vertical-align:top;">:</td><td><div>1589</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_type</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryjn3AgFPqzcxOavsN</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>max-age=0</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_length</td><td style="vertical-align:top;">:</td><td><div>1589</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_type</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundaryjn3AgFPqzcxOavsN</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>gsScrollPos=; gsScrollPos=; session_id_grievances=127.0.0.1-39bee78a-8e5b-4d17-ad2b-fa503b854ff7; session_id_sample1=127.0.0.1-69257c23-3e3c-4433-8daa-b0ad4e8056af; session_id_sample2=127.0.0.1-9b5af82d-a2f9-4dc5-9bb8-cace0eec1b34; session_id_moodleplus=127.0.0.1-25637e95-9386-4286-82f2-1ebf4cebec13; _ga=GA1.1.333590026.1458794726; session_id_welcome=127.0.0.1-2aa36f6c-96bf-4b44-aa47-e2ef5290a986; session_id_grs=127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f; session_id_admin=127.0.0.1-9942ebac-63c4-4689-80e7-24e695466b80</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_origin</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_referer</td><td style="vertical-align:top;">:</td><td><div>http://127.0.0.1:8000/GRS/default/user/register?_next=/GRS/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_upgrade_insecure_requests</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/48.0.2564.116 Chrome/48.0.2564.116 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>user-Z5WAH</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/GRS/default/user/register</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div>_next=/GRS/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>38602</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>POST</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/GRS/default/user/register?_next=/GRS/default/index</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>user-Z5WAH</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.2-stable+timestamp.2016.03.24.22.47.49</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f1a2fa401e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f1a2adadc80&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f19edb35550&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f1a2fa401e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f1a2adadc80&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f19edb35550&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>user</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/&#x27;, &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/welcome/&#x27;, &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f1a2ab82908: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;user-Z5WAH&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>user-Z5WAH</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.2-stable+timestamp.2016.03.24.22.47.49</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 29, 12, 11, 38, 853889)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_args</td><td style="vertical-align:top;">:</td><td><div>register</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">raw_extension</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/GRS/default/user/register</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 29, 6, 41, 38, 853909)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f19edb39a10&gt;</div></td></tr></table></div>'
+tRp70
+sS'frames'
+p71
+(lp72
+(dp73
+S'file'
+p74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/restricted.py'
+p75
+sS'dump'
+p76
+(dp77
+S'environment'
+p78
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p79
+sS'ccode'
+p80
+S'<code object <module> at 0x7f19ed7e00b0, file "/...pplications/GRS/controllers/default.py", line 11>'
+p81
+ssS'lnum'
+p82
+I227
+sS'lines'
+p83
+(dp84
+I224
+S'            ccode = code'
+p85
+sI225
+S'        else:'
+p86
+sI226
+S'            ccode = compile2(code, layer)'
+p87
+sI227
+S'        exec ccode in environment'
+p88
+sI228
+S'    except HTTP:'
+p89
+sI229
+S'        raise'
+p90
+sI230
+S'    except RestrictedError:'
+p91
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p92
+sI222
+S'    try:'
+p93
+sI223
+S'        if isinstance(code, types.CodeType):'
+p94
+ssS'call'
+p95
+S"(code='# -*- coding: utf-8 -*-\\n# this file is released ...ers_add()\\n\\nresponse._vars=response._caller(user)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}, layer='/home/user/Local Disk E/COP290/assignment2_1/GRS...em/web2py/applications/GRS/controllers/default.py')"
+p96
+sS'func'
+p97
+S'restricted'
+p98
+sa(dp99
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/default.py'
+p100
+sg76
+(dp101
+sg82
+I666
+sg83
+(dp102
+I655
+S'def reset_db():'
+p103
+sI656
+S'\tclear_all()'
+p104
+sI657
+S'\tcomplaint_levels_set()'
+p105
+sI658
+S'\tindividual_complaint_domain_set()'
+p106
+sI659
+S'\thostel_complaint_domain_set()'
+p107
+sI660
+S'\tinstitute_complaint_domain_set()'
+p108
+sI661
+S'\tgroup_names_set()'
+p109
+sI662
+S'\thostels_set()'
+p110
+sI663
+S'\thostel_management_set()'
+p111
+sI664
+S'\tusers_add()'
+p112
+ssg95
+S'()'
+p113
+sg97
+S'<module>'
+p114
+sa(dp115
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/globals.py'
+p116
+sg76
+(dp117
+S'self'
+p118
+S'undefined'
+p119
+sS'f'
+S'<function user>'
+p120
+ssg82
+I417
+sg83
+(dp121
+I416
+S'        self._vars = None'
+p122
+sI417
+S'        self._caller = lambda f: f()'
+p123
+sI418
+S'        self._view_environment = None'
+p124
+sI419
+S'        self._custom_commit = None'
+p125
+sI420
+S'        self._custom_rollback = None'
+p126
+sI421
+S"        self.generic_patterns = ['*']"
+p127
+sI412
+S"        self.flash = ''            # used by the default view layout"
+p128
+sI413
+S'        self.meta = Storage()      # used by web2py_ajax.html'
+p129
+sI414
+S'        self.menu = []             # used by the default view layout'
+p130
+sI415
+S'        self.files = []            # used by web2py_ajax.html'
+p131
+ssg95
+S'(f=<function user>)'
+p132
+sg97
+S'<lambda>'
+p133
+sa(dp134
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/default.py'
+p135
+sg76
+(dp136
+S'global auth'
+p137
+S'<gluon.tools.Auth object>'
+p138
+sS'form'
+p139
+g119
+sS'builtindict'
+p140
+S"<type 'dict'>"
+p141
+ssg82
+I39
+sg83
+(dp142
+I34
+S"        @auth.requires_membership('group name')"
+p143
+sI35
+S"        @auth.requires_permission('read','table name',record_id)"
+p144
+sI36
+S'    to decorate functions that need access control'
+p145
+sI37
+S'    also notice there is http://..../[app]/appadmin/manage/auth to allow administrator to manage users'
+p146
+sI38
+S'    """'
+p147
+sI39
+S'    return dict(form=auth())'
+p148
+sI40
+S''
+sI41
+S''
+sI42
+S'@cache.action()'
+p149
+sI43
+S'def download():'
+p150
+ssg95
+S'()'
+p151
+sg97
+S'user'
+p152
+sa(dp153
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/tools.py'
+p154
+sg76
+(dp155
+S'self'
+p156
+S'<gluon.tools.Auth object>'
+p157
+sS'args'
+p158
+S"['register']"
+p159
+sS'builtingetattr'
+p160
+S'<built-in function getattr>'
+p161
+ssg82
+I1938
+sg83
+(dp162
+I1933
+S"                       'impersonate', 'not_authorized', 'confirm_registration',"
+p163
+sI1934
+S"                       'bulk_register','manage_tokens','jwt'):"
+p164
+sI1935
+S"            if len(request.args) >= 2 and args[0] == 'impersonate':"
+p165
+sI1936
+S'                return getattr(self, args[0])(request.args[1])'
+p166
+sI1937
+S'            else:'
+p167
+sI1938
+S'                return getattr(self, args[0])()'
+p168
+sI1939
+S"        elif args[0] == 'cas' and not self.settings.cas_provider:"
+p169
+sI1940
+S"            if args(1) == self.settings.cas_actions['login']:"
+p170
+sI1941
+S'                return self.cas_login(version=2)'
+p171
+sI1942
+S"            elif args(1) == self.settings.cas_actions['validate']:"
+p172
+ssg95
+S'(self=<gluon.tools.Auth object>)'
+p173
+sg97
+S'__call__'
+p174
+sa(dp175
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/tools.py'
+p176
+sg76
+(dp177
+S'form.vars'
+p178
+S"<Storage {'username': 'std3', 'degree_name': Non...f_degree': None, 'password': '12345', 'id': 22L}>"
+p179
+sS'description'
+p180
+S"<lazyT 'Group uniquely assigned to user %(id)s'>"
+p181
+sS'form'
+p182
+S'<gluon.sqlhtml.SQLFORM object>'
+p183
+sS'self'
+p184
+S'<gluon.tools.Auth object>'
+p185
+sS'self.settings'
+p186
+S"<Storage {'verify_email_onaccept': [], 'register... 'retrieve_username_next': '/GRS/default/index'}>"
+p187
+sS'self.settings.create_user_groups'
+p188
+S"'user_%(id)s'"
+p189
+ssg82
+I3362
+sg83
+(dp190
+I3360
+S'            if self.settings.create_user_groups:'
+p191
+sI3361
+S'                group_id = self.add_group('
+p192
+sI3362
+S'                    self.settings.create_user_groups % form.vars, description)'
+p193
+sI3363
+S'                self.add_membership(group_id, form.vars.id)'
+p194
+sI3364
+S'            if self.settings.everybody_group_id:'
+p195
+sI3365
+S'                self.add_membership('
+p196
+sI3366
+S'                    self.settings.everybody_group_id, form.vars.id)'
+p197
+sI3357
+S'                        onvalidation=onvalidation,'
+p198
+sI3358
+S'                        hideerror=self.settings.hideerror):'
+p199
+sI3359
+S'            description = self.messages.group_description % form.vars'
+p200
+ssg95
+S"(self=<gluon.tools.Auth object>, next='/GRS/default/index', onvalidation=[], onaccept=[], log='User %(id)s Registered')"
+p201
+sg97
+S'register'
+p202
+sa(dp203
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/tools.py'
+p204
+sg76
+(dp205
+S'role'
+p206
+S"'user_22'"
+p207
+sS'description'
+p208
+S"<lazyT 'Group uniquely assigned to user %(id)s'>"
+p209
+ssg82
+I4323
+sg83
+(dp210
+I4320
+S'        """'
+p211
+sI4321
+S''
+sI4322
+S'        group_id = self.table_group().insert('
+p212
+sI4323
+S'            role=role, description=description)'
+p213
+sI4324
+S"        self.log_event(self.messages['add_group_log'],"
+p214
+sI4325
+S'                       dict(group_id=group_id, role=role))'
+p215
+sI4326
+S'        return group_id'
+p216
+sI4327
+S''
+sI4318
+S'        """'
+p217
+sI4319
+S'        Creates a group associated to a role'
+p218
+ssg95
+S"(self=<gluon.tools.Auth object>, role='user_22', description=<lazyT 'Group uniquely assigned to user %(id)s'>)"
+p219
+sg97
+S'add_group'
+p220
+sa(dp221
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py'
+p222
+sg76
+(dp223
+S'self._listify'
+p224
+S'<bound method Table._listify of <Table user_group_names (id, group_name)>>'
+p225
+sS'fields'
+p226
+S"{'description': <lazyT 'Group uniquely assigned to user %(id)s'>, 'role': 'user_22'}"
+p227
+sS'self'
+p228
+S'<Table user_group_names (id, group_name)>'
+p229
+sS'ret'
+p230
+g119
+sS'self._db._adapter'
+p231
+S'<pydal.adapters.sqlite.SQLiteAdapter object>'
+p232
+sS'self._db._adapter.insert'
+p233
+S'<bound method SQLiteAdapter.insert of <pydal.adapters.sqlite.SQLiteAdapter object>>'
+p234
+sS'self._db'
+p235
+S'<DAL uri="sqlite://storage.sqlite">'
+p236
+ssg82
+I726
+sg83
+(dp237
+I721
+S'    def insert(self, **fields):'
+p238
+sI722
+S'        fields = self._defaults(fields)'
+p239
+sI723
+S'        self._attempt_upload(fields)'
+p240
+sI724
+S'        if any(f(fields) for f in self._before_insert):'
+p241
+sI725
+S'            return 0'
+p242
+sI726
+S'        ret = self._db._adapter.insert(self, self._listify(fields))'
+p243
+sI727
+S'        if ret and self._after_insert:'
+p244
+sI728
+S'            fields = Row(fields)'
+p245
+sI729
+S'            [f(fields, ret) for f in self._after_insert]'
+p246
+sI730
+S'        return ret'
+p247
+ssg95
+S"(self=<Table user_group_names (id, group_name)>, **fields={'description': <lazyT 'Group uniquely assigned to user %(id)s'>, 'role': 'user_22'})"
+p248
+sg97
+S'insert'
+p249
+sa(dp250
+g74
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py'
+p251
+sg76
+(dp252
+S'name'
+p253
+S"'role'"
+p254
+ssg82
+I641
+sg83
+(dp255
+I640
+S'                    raise SyntaxError('
+p256
+sI641
+S"                        'Field %s does not belong to the table' % name)"
+p257
+sI642
+S'            else:'
+p258
+sI643
+S'                field = self[name]'
+p259
+sI644
+S'                value = fields[name]'
+p260
+sI645
+S'                if field.filter_in:'
+p261
+sI636
+S'        # store all fields passed as input in new_fields'
+p262
+sI637
+S'        for name in fields:'
+p263
+sI638
+S'            if name not in self.fields:'
+p264
+sI639
+S"                if name != 'id':"
+p265
+ssg95
+S"(self=<Table user_group_names (id, group_name)>, fields={'description': <lazyT 'Group uniquely assigned to user %(id)s'>, 'role': 'user_22'}, update=False)"
+p266
+sg97
+S'_listify'
+p267
+sasS'pyver'
+p268
+S'Python 2.7.10: /usr/bin/python (prefix: /usr)'
+p269
+sS'session'
+p270
+g69
+(S's\x98\x00\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div>'
+tRp271
+sS'etype'
+p272
+S"<type 'exceptions.SyntaxError'>"
+p273
+sS'date'
+p274
+S'Tue Mar 29 12:11:38 2016'
+p275
+sS'response'
+p276
+g69
+(S's\x87?\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f19ede92768&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_grs</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="http://www.web2py.com/" id="web2py-logo"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/GRS/default/index</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Design</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/design/GRS</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Controller</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/controllers/default.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>View</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/views/default/user.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>DB Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/models/db.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Menu Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/models/menu.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Config.ini</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/private/appconfig.ini</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Layout</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/views/layout.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Stylesheet</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/edit/GRS/static/css/web2py-bootstrap3.css</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/GRS/appadmin/index</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Errors</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/errors/GRS</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>About</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/default/about/GRS</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Download</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/download</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Support</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/support</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Demo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/demo_admin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Quick Examples</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/examples/default/examples</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>FAQ</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/AlterEgo</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Videos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/videos/</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Free Applications</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/appliances</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/plugins</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2pyslices.com/</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Online book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Preface</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/00</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Introduction</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/01</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Python</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/02</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Overview</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/03</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Core</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/04</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Views</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/05</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/06</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Forms and Validators</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/07</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Email and SMS</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/08</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Access Control</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/09</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Services</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/10</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Ajax Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/11</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Components and Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/12</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Deployment Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/13</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Other Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/14</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Helping web2py</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/15</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Buy web2py\'s book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://stores.lulu.com/web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Groups</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/usergroups</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Twitter</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://twitter.com/web2py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Live Chat</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://webchat.freenode.net/?channels=web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>web2py</div></td></tr><tr><td><div>python</div></td></tr><tr><td><div>framework</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^default/\\w+\\.py$</div></td></tr><tr><td><div>^default/user/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_grs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/sessions/08e/1b8/127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f&#x27;, mode &#x27;rb+&#x27; at 0x7f19edb49c00&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/sessions/127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>3553676676c45769c294860de33b5bc6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>127.0.0.1-1213a28a-1a62-4524-a510-99351caf1e7f</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_grs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>GRS</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Grs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>default/user.html</div></td></tr></table></div>'
+tRp277
+sS'locals'
+p278
+(dp279
+S'fields'
+p280
+S"{'description': <lazyT 'Group uniquely assigned to user %(id)s'>, 'role': 'user_22'}"
+p281
+sS'self'
+p282
+S'<Table user_group_names (id, group_name)>'
+p283
+sS'new_fields'
+p284
+g21
+sS'name'
+p285
+S"'role'"
+p286
+sS'update'
+p287
+S'False'
+p288
+sssS'traceback'
+p289
+S'Traceback (most recent call last):\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/default.py", line 666, in <module>\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/default.py", line 39, in user\n    return dict(form=auth())\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/tools.py", line 1938, in __call__\n    return getattr(self, args[0])()\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/tools.py", line 3362, in register\n    self.settings.create_user_groups % form.vars, description)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/tools.py", line 4323, in add_group\n    role=role, description=description)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 726, in insert\n    ret = self._db._adapter.insert(self, self._listify(fields))\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 641, in _listify\n    \'Field %s does not belong to the table\' % name)\nSyntaxError: Field role does not belong to the table\n'
+p290
+s.

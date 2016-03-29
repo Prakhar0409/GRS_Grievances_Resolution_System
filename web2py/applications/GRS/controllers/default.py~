@@ -633,7 +633,7 @@ def users_add():
 	add_to_grp("Aravali Hostel Residents Group",usr)
 	#Make him mess secretry of Aravali
 	hstl_id = db.hostels(hostel_name="Aravali").id
-	db.executesql('UPDATE hostel_management SET mess_secretary_user_id='+usr.id+' WHERE hostel_id='+hstl_id+';')
+	db.executesql('UPDATE hostel_management SET mess_secretary_user_id='+str(usr.id)+' WHERE hostel_id='+str(hstl_id)+';')
 
 	#Adding 2 electricians
 	usr=db.users.insert(

@@ -1,0 +1,702 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.AttributeError'> 'NoneType' object has no attribute 'isdigit'"
+p3
+sS'layer'
+p4
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/user.py'
+p5
+sS'code'
+p6
+S'@request.restful()\ndef validation():\n\tresponse.view = \'generic.json\'\n\tdef POST(*tmp_args,**complaint_input):\n\t\tif not auth.is_logged_in :\n\t\t\treturn dict()\n\t\tuser_id=auth.user.id\n\t\tif(len(request.args)==0):\n\t\t\tvalid_list = db(db.validation_requests.to_user_id==user_id).select()\n\t\t\treturn dict(validation_list=valid_list)\n\t\telif(len(request.args)==1):\n\t\t\tval_id=request.vars.validation_id\n\t\t\tnew_user=db.validation_requests(id=request.vars.validation_id).from_user_id\n\t\t\tvdt=request.vars.validate\n\t\t\tgrp=request.args[0]\n\t\t\tif(vdt==\'1\'):\n\t\t\t\tdb.executesql("UPDATE group_members SET is_validated=\'true\' WHERE user_id="+str(new_user)+\' AND group_id=\'+str(grp)+\';\')\n\t\t\t\tdb.executesql(\'DELETE FROM validation_requests WHERE id=\'+val_id+\';\')\n\t\t\t\tdb.notifications.insert(user_id=user_id,notification_type=-1,notification=\'Your membership request for group \'+db.user_group_names(id=int(grp)).group_name+\' has been accepted\')\n\t\t\tif(vdt==\'0\'):\n\t\t\t\tdb.executesql("DELETE FROM group_members WHERE user_id="+str(new_user)+\' AND group_id=\'+str(grp)+\';\')\n\t\t\t\tdb.executesql(\'DELETE FROM validation_requests WHERE from_user_id=\'+str(new_user)+\' AND group_id=\'+str(grp)+\';\')\n\t\t\t\tdb.notifications.insert(user_id=user_id,notification_type=-1,notification=\'Your membership request for group \'+db.user_group_names(id=int(grp)).group_name+\' has been rejected\')\n\t\t\treturn dict(success=True)\n\tdef GET(*tmp_args,**complaint_input):\n\t\tif not auth.is_logged_in :\n\t\t\treturn dict()\n\t\tuser_id=auth.user.id\n\t\tif(len(request.args)==0):\n\t\t\tvalid_list = db(db.validation_requests.to_user_id==user_id).select()\n\t\t\treturn dict(validation_list=valid_list)\n\t\telif(len(request.args)==1):\n\t\t\tval_id=request.vars.validation_id\n\t\t\tnew_user=db.validation_requests(id=request.vars.validation_id).from_user_id\n\t\t\tvdt=request.vars.validate\n\t\t\tgrp=request.args[0]\n\t\t\tif(vdt==\'1\'):\n\t\t\t\tdb.executesql("UPDATE group_members SET is_validated=\'true\' WHERE user_id="+str(new_user)+\' AND group_id=\'+str(grp)+\';\')\n\t\t\t\tdb.executesql(\'DELETE FROM validation_requests WHERE id=\'+val_id+\';\')\n\t\t\t\tdb.notifications.insert(user_id=user_id,notification_type=-1,notification=\'Your membership request for group \'+db.user_group_names(id=int(grp)).group_name+\' has been accepted\')\n\t\t\tif(vdt==\'0\'):\n\t\t\t\tdb.executesql("DELETE FROM group_members WHERE user_id="+str(new_user)+\' AND group_id=\'+str(grp)+\';\')\n\t\t\t\tdb.executesql(\'DELETE FROM validation_requests WHERE from_user_id=\'+str(new_user)+\' AND group_id=\'+str(grp)+\';\')\n\t\t\t\tdb.notifications.insert(user_id=user_id,notification_type=-1,notification=\'Your membership request for group \'+db.user_group_names(id=int(grp)).group_name+\' has been rejected\')\n\t\t\treturn dict(success=True)\n\treturn locals()\n@request.restful()\ndef login():\n\tresponse.view = \'generic.json\'\n\tdef POST(*tmp_args,**complaint_input):\n\t\tusername=request.vars.username\n\t\tpassword=request.vars.password\n\t\tuser = auth.login_bare(username=username,password=password)\n\t\tuser["hostel_name"]=db.hostels(id=user.hostel_id).hostel_name\n    \t\treturn dict(success=False if not user else True, user=user)\n\tdef GET(*tmp_args,**complaint_input):\n\t\tusername=request.vars.username\n\t\tpassword=request.vars.password\n\t\tuser = auth.login_bare(username=username,password=password)\n\t\tuser["hostel_name"]=db.hostels(id=user.hostel_id).hostel_name\n\t\treturn dict(success=False if not user else True, user=user)\n\treturn locals()\n\n@request.restful()\ndef logout():\n\tresponse.view = \'generic.json\'\n\treturn dict(success=True, loggedout=auth.logout())\n\n@request.restful()\ndef signup():\n\tresponse.view = \'generic.json\'\n\tdef POST(*tmp_args,**sign_input):\n\t\tret = db[db.users].validate_and_insert(**sign_input)\n\t\treturn dict(user=ret)\n\tdef GET(*tmp_args,**sign_input):\n\t\tret = db[db.users].validate_and_insert(**sign_input)\n\t\treturn dict(user=ret)\n\treturn locals()\ndef profile():\n\tresponse.view = \'generic.json\'\n\tif not auth.is_logged_in:\n\t\treturn dict()\n\tuser=auth.user\n\tuser["hostel_name"]=db.hostels(id=user.hostel_id).hostel_name\n\treturn dict(user=user)\n\nresponse._vars=response._caller(signup)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+S'exception'
+p10
+(dp11
+S'__hash__'
+p12
+S"<method-wrapper '__hash__' of exceptions.AttributeError object>"
+p13
+sS'__setattr__'
+p14
+S"<method-wrapper '__setattr__' of exceptions.AttributeError object>"
+p15
+sS'__reduce_ex__'
+p16
+S'<built-in method __reduce_ex__ of exceptions.AttributeError object>'
+p17
+sS'__getslice__'
+p18
+S"<method-wrapper '__getslice__' of exceptions.AttributeError object>"
+p19
+sS'__getitem__'
+p20
+S"<method-wrapper '__getitem__' of exceptions.AttributeError object>"
+p21
+sS'__setstate__'
+p22
+S'<built-in method __setstate__ of exceptions.AttributeError object>'
+p23
+sS'args'
+p24
+S'("\'NoneType\' object has no attribute \'isdigit\'",)'
+p25
+sS'__reduce__'
+p26
+S'<built-in method __reduce__ of exceptions.AttributeError object>'
+p27
+sS'__str__'
+p28
+S"<method-wrapper '__str__' of exceptions.AttributeError object>"
+p29
+sS'__format__'
+p30
+S'<built-in method __format__ of exceptions.AttributeError object>'
+p31
+sS'__getattribute__'
+p32
+S"<method-wrapper '__getattribute__' of exceptions.AttributeError object>"
+p33
+sS'__class__'
+p34
+S"<type 'exceptions.AttributeError'>"
+p35
+sS'__unicode__'
+p36
+S'<built-in method __unicode__ of exceptions.AttributeError object>'
+p37
+sS'__delattr__'
+p38
+S"<method-wrapper '__delattr__' of exceptions.AttributeError object>"
+p39
+sS'__subclasshook__'
+p40
+S'<built-in method __subclasshook__ of type object>'
+p41
+sS'__repr__'
+p42
+S"<method-wrapper '__repr__' of exceptions.AttributeError object>"
+p43
+sS'__dict__'
+p44
+S'{}'
+p45
+sS'__sizeof__'
+p46
+S'<built-in method __sizeof__ of exceptions.AttributeError object>'
+p47
+sS'__doc__'
+p48
+S"'Attribute not found.'"
+p49
+sS'__init__'
+p50
+S"<method-wrapper '__init__' of exceptions.AttributeError object>"
+p51
+sS'__new__'
+p52
+S'<built-in method __new__ of type object>'
+p53
+ssS'evalue'
+p54
+S"'NoneType' object has no attribute 'isdigit'"
+p55
+sS'request'
+p56
+cgluon.html
+XML_unpickle
+p57
+(S's\x0f^\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">ajax</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">application</td><td style="vertical-align:top;">:</td><td><div>GRS</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cid</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">client</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">controller</td><td style="vertical-align:top;">:</td><td><div>user</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_grs</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_welcome</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172-bddd985c-1a44-4b6e-a6b5-83ec75f06e1d<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">env</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>550</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundary4xTmHTwbyg0h1kbf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_ENCODING</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ACCEPT_LANGUAGE</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CACHE_CONTROL</td><td style="vertical-align:top;">:</td><td><div>no-cache</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONNECTION</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_LENGTH</td><td style="vertical-align:top;">:</td><td><div>550</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_CONTENT_TYPE</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundary4xTmHTwbyg0h1kbf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_COOKIE</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=192.168.43.172-bddd985c-1a44-4b6e-a6b5-83ec75f06e1d; session_id_grs=192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_HOST</td><td style="vertical-align:top;">:</td><td><div>192.168.43.147:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_ORIGIN</td><td style="vertical-align:top;">:</td><td><div>chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_POSTMAN_TOKEN</td><td style="vertical-align:top;">:</td><td><div>646b83d8-8e5f-4d9c-8104-adf2b6d7759d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">HTTP_USER_AGENT</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">PATH_INFO</td><td style="vertical-align:top;">:</td><td><div>/user/signup</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">QUERY_STRING</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_ADDR</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REMOTE_PORT</td><td style="vertical-align:top;">:</td><td><div>57753</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">REQUEST_METHOD</td><td style="vertical-align:top;">:</td><td><div>POST</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SCRIPT_NAME</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_NAME</td><td style="vertical-align:top;">:</td><td><div>user-Z5WAH</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PORT</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_PROTOCOL</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">SERVER_SOFTWARE</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/&#x27;, &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f9707edcb48: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;user-Z5WAH&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_length</td><td style="vertical-align:top;">:</td><td><div>550</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">content_type</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundary4xTmHTwbyg0h1kbf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept</td><td style="vertical-align:top;">:</td><td><div>*/*</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_encoding</td><td style="vertical-align:top;">:</td><td><div>gzip, deflate</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_accept_language</td><td style="vertical-align:top;">:</td><td><div>en-US,en;q=0.8</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cache_control</td><td style="vertical-align:top;">:</td><td><div>no-cache</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_connection</td><td style="vertical-align:top;">:</td><td><div>keep-alive</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_length</td><td style="vertical-align:top;">:</td><td><div>550</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_content_type</td><td style="vertical-align:top;">:</td><td><div>multipart/form-data; boundary=----WebKitFormBoundary4xTmHTwbyg0h1kbf</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_cookie</td><td style="vertical-align:top;">:</td><td><div>session_id_welcome=192.168.43.172-bddd985c-1a44-4b6e-a6b5-83ec75f06e1d; session_id_grs=192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_host</td><td style="vertical-align:top;">:</td><td><div>192.168.43.147:8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_origin</td><td style="vertical-align:top;">:</td><td><div>chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_postman_token</td><td style="vertical-align:top;">:</td><td><div>646b83d8-8e5f-4d9c-8104-adf2b6d7759d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">http_user_agent</td><td style="vertical-align:top;">:</td><td><div>Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>user-Z5WAH</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path_info</td><td style="vertical-align:top;">:</td><td><div>/user/signup</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">query_string</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_addr</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">remote_port</td><td style="vertical-align:top;">:</td><td><div>57753</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_method</td><td style="vertical-align:top;">:</td><td><div>POST</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">request_uri</td><td style="vertical-align:top;">:</td><td><div>/GRS/user/signup</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">script_name</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_name</td><td style="vertical-align:top;">:</td><td><div>user-Z5WAH</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_port</td><td style="vertical-align:top;">:</td><td><div>8000</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_protocol</td><td style="vertical-align:top;">:</td><td><div>HTTP/1.1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">server_software</td><td style="vertical-align:top;">:</td><td><div>Rocket 1.2.6</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_original_uri</td><td style="vertical-align:top;">:</td><td><div>/user/signup</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_path</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.2-stable+timestamp.2016.03.24.22.47.49</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f970ca561e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f9707a7fc80&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f96c2362050&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi.version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_errors</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;&lt;stderr&gt;&#x27;, mode &#x27;w&#x27; at 0x7f970ca561e0&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_file_wrapper</td><td style="vertical-align:top;">:</td><td><div>&lt;class wsgiref.util.FileWrapper at 0x7f9707a7fc80&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_input</td><td style="vertical-align:top;">:</td><td><div>&lt;socket._fileobject object at 0x7f96c2362050&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multiprocess</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_multithread</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_run_once</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_url_scheme</td><td style="vertical-align:top;">:</td><td><div>http</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi_version</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>1</div></td></tr><tr><td><div>0</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">extension</td><td style="vertical-align:top;">:</td><td><div>html</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">folder</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">function</td><td style="vertical-align:top;">:</td><td><div>signup</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">global_settings</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">app_folders</td><td style="vertical-align:top;">:</td><td><div>set([&#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/&#x27;, &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/admin/&#x27;])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">applications_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_args</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cmd_options</td><td style="vertical-align:top;">:</td><td><div>&lt;Values at 0x7f9707edcb48: {&#x27;verbose&#x27;: False, &#x27;ip&#x27;: &#x27;127.0.0.1&#x27;, &#x27;debuglevel&#x27;: 30, &#x27;with_scheduler&#x27;: False, &#x27;shutdown_timeout&#x27;: 5, &#x27;taskbar&#x27;: False, &#x27;with_coverage&#x27;: False, &#x27;pid_filename&#x27;: &#x27;httpserver.pid&#x27;, &#x27;maxthreads&#x27;: None, &#x27;softcron&#x27;: False, &#x27;server_name&#x27;: &#x27;user-Z5WAH&#x27;, &#x27;bpython&#x27;: False, &#x27;nogui&#x27;: False, &#x27;port&#x27;: 8000, &#x27;print_errors&#x27;: False, &#x27;extcron&#x27;: False, &#x27;runcron&#x27;: False, &#x27;run_system_tests&#x27;: False, &#x27;test&#x27;: None, &#x27;folder&#x27;: &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py&#x27;, &#x27;config&#x27;: &#x27;&#x27;, &#x27;minthreads&#x27;: None, &#x27;shell&#x27;: None, &#x27;run&#x27;: &#x27;&#x27;, &#x27;log_filename&#x27;: &#x27;httpserver.log&#x27;, &#x27;profiler_dir&#x27;: None, &#x27;args&#x27;: [&#x27;&#x27;], &#x27;socket_timeout&#x27;: 5, &#x27;ssl_ca_certificate&#x27;: None, &#x27;scheduler&#x27;: None, &#x27;interfaces&#x27;: None, &#x27;ssl_private_key&#x27;: &#x27;&#x27;, &#x27;gae&#x27;: None, &#x27;password&#x27;: &#x27;******&#x27;, &#x27;request_queue_size&#x27;: 5, &#x27;ssl_certificate&#x27;: &#x27;&#x27;, &#x27;cronjob&#x27;: False, &#x27;numthreads&#x27;: None, &#x27;quiet&#x27;: False, &#x27;import_models&#x27;: False, &#x27;timeout&#x27;: 10, &#x27;plain&#x27;: False, &#x27;nobanner&#x27;: False}&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">db_sessions</td><td style="vertical-align:top;">:</td><td><div>set([])</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">debugging</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">gluon_parent</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_jython</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_pypy</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_source</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">local_hosts</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>user-Z5WAH</div></td></tr><tr><td><div>::1</div></td></tr><tr><td><div>127.0.1.1</div></td></tr><tr><td><div>::ffff:127.0.0.1</div></td></tr><tr><td><div>127.0.0.1</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">web2py_version</td><td style="vertical-align:top;">:</td><td><div>2.14.2-stable+timestamp.2016.03.24.22.47.49</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_https</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_local</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_restful</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_scheduler</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">is_shell</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">now</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 29, 21, 20, 27, 795145)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">url</td><td style="vertical-align:top;">:</td><td><div>/user/signup</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">utcnow</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 29, 15, 50, 27, 795174)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">wsgi</td><td style="vertical-align:top;">:</td><td><div>&lt;gluon.main.LazyWSGI object at 0x7f96c28d3f10&gt;</div></td></tr></table></div>'
+tRp58
+sS'frames'
+p59
+(lp60
+(dp61
+S'file'
+p62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/restricted.py'
+p63
+sS'dump'
+p64
+(dp65
+S'environment'
+p66
+S"{'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}"
+p67
+sS'ccode'
+p68
+S'<code object <module> at 0x7f9707e98530, file "/...py/applications/GRS/controllers/user.py", line 1>'
+p69
+ssS'lnum'
+p70
+I227
+sS'lines'
+p71
+(dp72
+I224
+S'            ccode = code'
+p73
+sI225
+S'        else:'
+p74
+sI226
+S'            ccode = compile2(code, layer)'
+p75
+sI227
+S'        exec ccode in environment'
+p76
+sI228
+S'    except HTTP:'
+p77
+sI229
+S'        raise'
+p78
+sI230
+S'    except RestrictedError:'
+p79
+sI231
+S'        # do not encapsulate (obfuscate) the original RestrictedError'
+p80
+sI222
+S'    try:'
+p81
+sI223
+S'        if isinstance(code, types.CodeType):'
+p82
+ssS'call'
+p83
+S"(code='@request.restful()\\ndef validation():\\n\\tresponse.v...r=user)\\n\\nresponse._vars=response._caller(signup)\\n', environment={'A': <class 'gluon.html.A'>, 'ANY_OF': <class 'gluon.validators.ANY_OF'>, 'ASSIGNJS': <function ASSIGNJS>, 'AppConfig': <function AppConfig>, 'Auth': <class 'gluon.tools.Auth'>, 'B': <class 'gluon.html.B'>, 'BEAUTIFY': <class 'gluon.html.BEAUTIFY'>, 'BODY': <class 'gluon.html.BODY'>, 'BR': <class 'gluon.html.BR'>, 'BUTTON': <class 'gluon.html.BUTTON'>, ...}, layer='/home/user/Local Disk E/COP290/assignment2_1/GRS...ystem/web2py/applications/GRS/controllers/user.py')"
+p84
+sS'func'
+p85
+S'restricted'
+p86
+sa(dp87
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/user.py'
+p88
+sg64
+(dp89
+sg70
+I87
+sg71
+(dp90
+I76
+S'\t\tret = db[db.users].validate_and_insert(**sign_input)'
+p91
+sI77
+S'\t\treturn dict(user=ret)'
+p92
+sI78
+S'\treturn locals()'
+p93
+sI79
+S'def profile():'
+p94
+sI80
+S"\tresponse.view = 'generic.json'"
+p95
+sI81
+S'\tif not auth.is_logged_in:'
+p96
+sI82
+S'\t\treturn dict()'
+p97
+sI83
+S'\tuser=auth.user'
+p98
+sI84
+S'\tuser["hostel_name"]=db.hostels(id=user.hostel_id).hostel_name'
+p99
+sI85
+S'\treturn dict(user=user)'
+p100
+ssg83
+S'()'
+p101
+sg85
+S'<module>'
+p102
+sa(dp103
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/globals.py'
+p104
+sg64
+(dp105
+S'self'
+p106
+S'undefined'
+p107
+sS'f'
+S'<function signup>'
+p108
+ssg70
+I417
+sg71
+(dp109
+I416
+S'        self._vars = None'
+p110
+sI417
+S'        self._caller = lambda f: f()'
+p111
+sI418
+S'        self._view_environment = None'
+p112
+sI419
+S'        self._custom_commit = None'
+p113
+sI420
+S'        self._custom_rollback = None'
+p114
+sI421
+S"        self.generic_patterns = ['*']"
+p115
+sI412
+S"        self.flash = ''            # used by the default view layout"
+p116
+sI413
+S'        self.meta = Storage()      # used by web2py_ajax.html'
+p117
+sI414
+S'        self.menu = []             # used by the default view layout'
+p118
+sI415
+S'        self.files = []            # used by web2py_ajax.html'
+p119
+ssg83
+S'(f=<function signup>)'
+p120
+sg85
+S'<lambda>'
+p121
+sa(dp122
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/globals.py'
+p123
+sg64
+(dp124
+S'rest_action'
+p125
+S'<function POST>'
+p126
+sS'res'
+p127
+g107
+sS'request.args'
+p128
+S'[]'
+p129
+sS'request'
+p130
+S"<Storage {'_vars': <Storage {'email_id': 'p@gmai...ces_Resolution_System/web2py/applications/GRS/'}>"
+p131
+sS'request.vars'
+p132
+S"<Storage {'email_id': 'p@gmail.com', 'year_of_de... '12345', 'picture_id': '1', 'last_name': 'abc'}>"
+p133
+ssg70
+I380
+sg71
+(dp134
+I384
+S'                except TypeError, e:'
+p135
+sI375
+S'                rest_action = _action().get(method, None)'
+p136
+sI376
+S'                if not (rest_action and method == method.upper()'
+p137
+sI377
+S'                        and callable(rest_action)):'
+p138
+sI378
+S'                    raise HTTP(405, "method not allowed")'
+p139
+sI379
+S'                try:'
+p140
+sI380
+S'                    res = rest_action(*request.args, **request.vars)'
+p141
+sI381
+S'                    if is_json and not isinstance(res, str):'
+p142
+sI382
+S'                        res = json(res)'
+p143
+sI383
+S'                    return res'
+p144
+ssg83
+S'(_action=<function signup>, *a=(), **b={})'
+p145
+sg85
+S'f'
+sa(dp146
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/user.py'
+p147
+sg64
+(dp148
+S'global db'
+p149
+S'<DAL uri="sqlite://storage.sqlite">'
+p150
+sS'sign_input'
+p151
+S"{'email_id': 'p@gmail.com', 'last_name': 'abc', 'password': '12345', 'picture_id': '1', 'year_of_degree': '12'}"
+p152
+sS'].validate_and_insert'
+p153
+S'<bound method Table.validate_and_insert of <Tabl...tel_id, picture_id, year_of_degree, contact_no)>>'
+p154
+sS'db.users'
+p155
+S'<Table users (id, username, password, registrati...stel_id, picture_id, year_of_degree, contact_no)>'
+p156
+sS'ret'
+p157
+g107
+ssg70
+I73
+sg71
+(dp158
+I68
+S''
+sI69
+S'@request.restful()'
+p159
+sI70
+S'def signup():'
+p160
+sI71
+S"\tresponse.view = 'generic.json'"
+p161
+sI72
+S'\tdef POST(*tmp_args,**sign_input):'
+p162
+sI73
+S'\t\tret = db[db.users].validate_and_insert(**sign_input)'
+p163
+sI74
+S'\t\treturn dict(user=ret)'
+p164
+sI75
+S'\tdef GET(*tmp_args,**sign_input):'
+p165
+sI76
+S'\t\tret = db[db.users].validate_and_insert(**sign_input)'
+p166
+sI77
+S'\t\treturn dict(user=ret)'
+p167
+ssg83
+S"(*tmp_args=(), **sign_input={'email_id': 'p@gmail.com', 'last_name': 'abc', 'password': '12345', 'picture_id': '1', 'year_of_degree': '12'})"
+p168
+sg85
+S'POST'
+p169
+sa(dp170
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py'
+p171
+sg64
+(dp172
+S'self._validate_fields'
+p173
+S'<bound method Table._validate_fields of <Table u...tel_id, picture_id, year_of_degree, contact_no)>>'
+p174
+sS'fields'
+p175
+S"{'email_id': 'p@gmail.com', 'last_name': 'abc', 'password': '12345', 'picture_id': '1', 'year_of_degree': '12'}"
+p176
+sS'self'
+p177
+S'<Table users (id, username, password, registrati...stel_id, picture_id, year_of_degree, contact_no)>'
+p178
+sS'new_fields'
+p179
+g107
+sS'response'
+p180
+g107
+ssg70
+I749
+sg71
+(dp181
+I744
+S'            elif value is not None:'
+p182
+sI745
+S'                new_fields[fieldname] = value'
+p183
+sI746
+S'        return response, new_fields'
+p184
+sI747
+S''
+sI748
+S'    def validate_and_insert(self, **fields):'
+p185
+sI749
+S'        response, new_fields = self._validate_fields(fields)'
+p186
+sI750
+S'        if not response.errors:'
+p187
+sI751
+S'            response.id = self.insert(**new_fields)'
+p188
+sI752
+S'        return response'
+p189
+sI753
+S''
+ssg83
+S"(self=<Table users (id, username, password, registrati...stel_id, picture_id, year_of_degree, contact_no)>, **fields={'email_id': 'p@gmail.com', 'last_name': 'abc', 'password': '12345', 'picture_id': '1', 'year_of_degree': '12'})"
+p190
+sg85
+S'validate_and_insert'
+p191
+sa(dp192
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py'
+p193
+sg64
+(dp194
+S'raw_value'
+p195
+S'None'
+p196
+sS'self'
+p197
+S'<Table users (id, username, password, registrati...stel_id, picture_id, year_of_degree, contact_no)>'
+p198
+sS'value'
+p199
+S'None'
+p200
+sS'fieldname'
+p201
+S"'hostel_id'"
+p202
+sS'error'
+p203
+S'None'
+p204
+sS'].validate'
+p205
+g107
+ssg70
+I741
+sg71
+(dp206
+I736
+S'        for fieldname in self.fields:'
+p207
+sI737
+S'            default = getattr(self[fieldname], defattr)'
+p208
+sI738
+S'            if callable(default):'
+p209
+sI739
+S'                default = default()'
+p210
+sI740
+S'            raw_value = fields.get(fieldname, default)'
+p211
+sI741
+S'            value, error = self[fieldname].validate(raw_value)'
+p212
+sI742
+S'            if error:'
+p213
+sI743
+S'                response.errors[fieldname] = "%s" % error'
+p214
+sI744
+S'            elif value is not None:'
+p215
+sI745
+S'                new_fields[fieldname] = value'
+p216
+ssg83
+S"(self=<Table users (id, username, password, registrati...stel_id, picture_id, year_of_degree, contact_no)>, fields={'email_id': 'p@gmail.com', 'last_name': 'abc', 'password': '12345', 'picture_id': '1', 'year_of_degree': '12'}, defattr='default')"
+p217
+sg85
+S'_validate_fields'
+p218
+sa(dp219
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py'
+p220
+sg64
+(dp221
+S'validator'
+p222
+S'<gluon.validators.IS_IN_DB object>'
+p223
+sS'value'
+p224
+S'None'
+p225
+sS'error'
+p226
+g107
+ssg70
+I1634
+sg71
+(dp227
+I1632
+S'            requires = [requires]'
+p228
+sI1633
+S'        for validator in requires:'
+p229
+sI1634
+S'            (value, error) = validator(value)'
+p230
+sI1635
+S'            if error:'
+p231
+sI1636
+S'                return (value, error)'
+p232
+sI1637
+S'        return ((value if value != self.map_none else None), None)'
+p233
+sI1638
+S''
+sI1629
+S'            return ((value if value != self.map_none else None), None)'
+p234
+sI1630
+S'        requires = self.requires'
+p235
+sI1631
+S'        if not isinstance(requires, (list, tuple)):'
+p236
+ssg83
+S'(self=<pydal.objects.Field object>, value=None)'
+p237
+sg85
+S'validate'
+p238
+sa(dp239
+g62
+S'/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/validators.py'
+p240
+sg64
+(dp241
+S'builtinlong'
+p242
+S"<type 'long'>"
+p243
+sS'builtinisinstance'
+p244
+S'<built-in function isinstance>'
+p245
+sS'builtinint'
+p246
+S"<type 'int'>"
+p247
+sS'value'
+p248
+S'None'
+p249
+sS'value.isdigit'
+p250
+g107
+ssg70
+I663
+sg71
+(dp251
+I658
+S'                        return (values, None)'
+p252
+sI659
+S'                elif count(values) == len(values):'
+p253
+sI660
+S'                    return (values, None)'
+p254
+sI661
+S'        else:'
+p255
+sI662
+S"            if self.field.type in ('id','integer'):"
+p256
+sI663
+S'                if isinstance(value,(int,long)) or value.isdigit():'
+p257
+sI664
+S'                    value = int(value)'
+p258
+sI665
+S'                elif self.auto_add:'
+p259
+sI666
+S'                    value = self.maybe_add(table, self.fieldnames[0], value)'
+p260
+sI667
+S'                else:'
+p261
+ssg83
+S'(self=<gluon.validators.IS_IN_DB object>, value=None)'
+p262
+sg85
+S'__call__'
+p263
+sasS'pyver'
+p264
+S'Python 2.7.10: /usr/bin/python (prefix: /usr)'
+p265
+sS'session'
+p266
+g57
+(S'sr\t\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">auth</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">expiration</td><td style="vertical-align:top;">:</td><td><div>3600</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hmac_key</td><td style="vertical-align:top;">:</td><td><div>dcd5aaff-d736-429e-b162-d9d83c9ee290</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_visit</td><td style="vertical-align:top;">:</td><td><div>datetime.datetime(2016, 3, 29, 21, 17, 4, 155645)</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">degree_name</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">email_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">first_name</td><td style="vertical-align:top;">:</td><td><div>student</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">hostel_id</td><td style="vertical-align:top;">:</td><td><div>53L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">id</td><td style="vertical-align:top;">:</td><td><div>18L</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">last_name</td><td style="vertical-align:top;">:</td><td><div>1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">picture_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">registration_key</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">username</td><td style="vertical-align:top;">:</td><td><div>std1</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">year_of_degree</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">user_groups</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr></table></div></td></tr></table></div>'
+tRp267
+sS'etype'
+p268
+S"<type 'exceptions.AttributeError'>"
+p269
+sS'date'
+p270
+S'Tue Mar 29 21:20:28 2016'
+p271
+sS'response'
+p272
+g57
+(S's ?\x00\x00<div><table><tr><td style="font-weight:bold;vertical-align:top;">body</td><td style="vertical-align:top;">:</td><td><div>&lt;cStringIO.StringO object at 0x7f96c22dafb8&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">cookies</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">session_id_grs</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d<table><tr><td style="font-weight:bold;vertical-align:top;">comment</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">domain</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">expires</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">httponly</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">max-age</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">path</td><td style="vertical-align:top;">:</td><td><div>/</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">secure</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">version</td><td style="vertical-align:top;">:</td><td><div></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">delimiters</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>{{</div></td></tr><tr><td><div>}}</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">files</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">flash</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">form_label_separator</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">formstyle</td><td style="vertical-align:top;">:</td><td><div>bootstrap3_inline</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generic_patterns</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>*</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">google_analytics_id</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">headers</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">X-Powered-By</td><td style="vertical-align:top;">:</td><td><div>web2py</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">logo</td><td style="vertical-align:top;">:</td><td><div><a class="navbar-brand" href="http://www.web2py.com/" id="web2py-logo"><b>web<span>2</span>py</b>&trade;&nbsp;</a></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">menu</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div><table><tr><td><div>Home</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/</div></td></tr><tr><td><div><table></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>My Sites</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/site</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>This App</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Design</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/design/GRS</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Controller</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/controllers/user.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>View</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/views/user/signup.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>DB Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/models/db.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Menu Model</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/models/menu.py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Config.ini</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/private/appconfig.ini</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Layout</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/views/layout.html</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Stylesheet</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/edit/GRS/static/css/web2py-bootstrap3.css</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/appadmin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Errors</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/errors/GRS</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>About</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>/admin/about/GRS</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>web2py.com</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Download</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/download</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Support</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/support</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Demo</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/demo_admin</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Quick Examples</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/examples/default/examples</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>FAQ</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/AlterEgo</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Videos</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/videos/</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Free Applications</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/appliances</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2py.com/plugins</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://web2pyslices.com/</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Documentation</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>#</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Online book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book</div></td></tr></table></div></td></tr><tr><td><div><li class="divider"></li></div></td></tr><tr><td><div><table><tr><td><div>Preface</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/00</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Introduction</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/01</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Python</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/02</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Overview</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/03</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Core</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/04</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>The Views</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/05</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Database</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/06</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Forms and Validators</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/07</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Email and SMS</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/08</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Access Control</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/09</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Services</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/10</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Ajax Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/11</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Components and Plugins</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/12</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Deployment Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/13</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Other Recipes</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/14</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Helping web2py</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/book/default/chapter/15</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Buy web2py\'s book</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://stores.lulu.com/web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Community</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>None</div></td></tr><tr><td><div><table><tr><td><div><table><tr><td><div>Groups</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://www.web2py.com/examples/default/usergroups</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Twitter</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://twitter.com/web2py</div></td></tr></table></div></td></tr><tr><td><div><table><tr><td><div>Live Chat</div></td></tr><tr><td><div>False</div></td></tr><tr><td><div>http://webchat.freenode.net/?channels=web2py</div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">meta</td><td style="vertical-align:top;">:</td><td><div><table><tr><td style="font-weight:bold;vertical-align:top;">author</td><td style="vertical-align:top;">:</td><td><div>Your Name &lt;you@example.com&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">description</td><td style="vertical-align:top;">:</td><td><div>a cool new app</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">generator</td><td style="vertical-align:top;">:</td><td><div>Web2py Web Framework</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">keywords</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>web2py</div></td></tr><tr><td><div>python</div></td></tr><tr><td><div>framework</div></td></tr></table></div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">models_to_run</td><td style="vertical-align:top;">:</td><td><div><table><tr><td><div>^\\w+\\.py$</div></td></tr><tr><td><div>^user/\\w+\\.py$</div></td></tr><tr><td><div>^user/signup/\\w+\\.py$</div></td></tr></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">postprocessing</td><td style="vertical-align:top;">:</td><td><div><table></table></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_client</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_compression_level</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_cookie_expires</td><td style="vertical-align:top;">:</td><td><div>None</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_data_name</td><td style="vertical-align:top;">:</td><td><div>session_data_grs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_file</td><td style="vertical-align:top;">:</td><td><div>&lt;open file &#x27;/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/sessions/14c/109/192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d&#x27;, mode &#x27;rb+&#x27; at 0x7f96c25c1390&gt;</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_filename</td><td style="vertical-align:top;">:</td><td><div>/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/sessions/192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_hash</td><td style="vertical-align:top;">:</td><td><div>2ed56c42c5a213d2874bf56d3e560900</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id</td><td style="vertical-align:top;">:</td><td><div>192.168.43.172-a7a31afc-7e69-429c-a194-04bb98f4789d</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_id_name</td><td style="vertical-align:top;">:</td><td><div>session_id_grs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_locked</td><td style="vertical-align:top;">:</td><td><div>True</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_masterapp</td><td style="vertical-align:top;">:</td><td><div>GRS</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_new</td><td style="vertical-align:top;">:</td><td><div>False</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">session_storage_type</td><td style="vertical-align:top;">:</td><td><div>file</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">status</td><td style="vertical-align:top;">:</td><td><div>200</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">subtitle</td><td style="vertical-align:top;">:</td><td><div></div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">title</td><td style="vertical-align:top;">:</td><td><div>Grs</div></td></tr><tr><td style="font-weight:bold;vertical-align:top;">view</td><td style="vertical-align:top;">:</td><td><div>generic.json</div></td></tr></table></div>'
+tRp273
+sS'locals'
+p274
+(dp275
+S'field'
+p276
+S'<pydal.objects.Field object>'
+p277
+sS'self'
+p278
+S'<gluon.validators.IS_IN_DB object>'
+p279
+sS'value'
+p280
+S'None'
+p281
+sS'table'
+p282
+S'<Table hostels (id, hostel_admin_group_id, hostel_residents_group_id, hostel_name)>'
+p283
+sssS'traceback'
+p284
+S'Traceback (most recent call last):\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/user.py", line 87, in <module>\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/globals.py", line 417, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/globals.py", line 380, in f\n    res = rest_action(*request.args, **request.vars)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/applications/GRS/controllers/user.py", line 73, in POST\n    ret = db[db.users].validate_and_insert(**sign_input)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 749, in validate_and_insert\n    response, new_fields = self._validate_fields(fields)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 741, in _validate_fields\n    value, error = self[fieldname].validate(raw_value)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/packages/dal/pydal/objects.py", line 1634, in validate\n    (value, error) = validator(value)\n  File "/home/user/Local Disk E/COP290/assignment2_1/GRS_Grievances_Resolution_System/web2py/gluon/validators.py", line 663, in __call__\n    if isinstance(value,(int,long)) or value.isdigit():\nAttributeError: \'NoneType\' object has no attribute \'isdigit\'\n'
+p285
+s.
